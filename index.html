@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Timer</title>
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <link href="styles.css" rel="stylesheet">
+    <link rel="icon" type="image/png" href="favicon.png">
+</head>
+<body>
+<div class="app">
+    <div class="timer-title" contenteditable="true" id="timerLabel" spellcheck="false">TIMER</div>
+    <div class="timer-circle" id="timerCircle">
+        <svg viewBox="0 0 240 240">
+            <circle class="timer-track" cx="120" cy="120" r="100"></circle>
+            <circle class="timer-progress" cx="120" cy="120" r="100"></circle>
+        </svg>
+        <div class="timer-inner-circle">
+            <div class="time-display" id="timeDisplay">00:01:00</div>
+        </div>
+    </div>
+    <div class="inputs" id="inputs">
+        <div class="input-group">
+            <div class="input-label">HOURS</div>
+            <label for="hoursInput"></label><input autocomplete="off" class="time-input" id="hoursInput"
+                                                   inputmode="numeric"
+                                                   type="text" value="0">
+        </div>
+        <div class="input-group">
+            <div class="input-label">MINUTES</div>
+            <label for="minutesInput"></label><input autocomplete="off" class="time-input" id="minutesInput"
+                                                     inputmode="numeric" type="text" value="1">
+        </div>
+        <div class="input-group">
+            <div class="input-label">SECONDS</div>
+            <label for="secondsInput"></label><input autocomplete="off" class="time-input" id="secondsInput"
+                                                     inputmode="numeric" type="text" value="0">
+        </div>
+    </div>
+    <div class="controls">
+        <button class="control-button cancel-button" disabled id="cancelButton">Cancel</button>
+        <button class="control-button start-button" id="startPauseButton">Start</button>
+    </div>
+    <div class="footer-hint" id="footerHint">Set a time, then tap Start.</div>
+</div>
+<div class="timer-popup" id="timerPopup">
+    <div class="popup-content">
+        <div class="popup-title">Time’s Up!</div>
+        <button class="popup-button" id="stopButton">OK</button>
+    </div>
+</div>
+<script src="script.js"></script>
+</body>
+</html>
