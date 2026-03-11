@@ -22,21 +22,26 @@ body {
 
 .timer-title {
     text-align: center;
-    font-size: 22px;
-    letter-spacing: 0.16em;
+    font-size: 30px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    line-height: 1.15;
     text-transform: uppercase;
-    color: #9a9a9a;
+    color: #d9d9d9;
     margin-bottom: 22px;
     outline: none;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.06);
 }
 
 .timer-title:focus {
     color: #ffffff;
+    text-shadow: 0 0 14px rgba(255, 255, 255, 0.12);
 }
 
 .timer-title.disabled {
-    color: #555;
+    color: #ffffff;
     cursor: default;
+    text-shadow: 0 0 14px rgba(255, 255, 255, 0.10);
 }
 
 .timer-circle {
