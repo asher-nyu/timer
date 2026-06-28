@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <!-- Background -->
+  <circle cx="64" cy="64" r="50" fill="currentColor"/>
+
+  <!-- Rings -->
+  <circle cx="64" cy="64" r="45" fill="none" stroke="white" stroke-width="3"/>
+  <circle cx="64" cy="64" r="37" fill="none" stroke="white" stroke-width="1.5" opacity=".45"/>
+
+  <!-- Hour markers -->
+  <g stroke="white" stroke-linecap="round">
+    <path d="M64 24v8M64 96v8M24 64h8M96 64h8" stroke-width="3"/>
+    <path d="M36 36l5.5 5.5M86.5 86.5L92 92M92 36l-5.5 5.5M41.5 86.5L36 92" stroke-width="2" opacity=".65"/>
+  </g>
+
+  <!-- Hands -->
+  <path d="M64 64V39" stroke="white" stroke-width="4" stroke-linecap="round"/>
+  <path d="M64 64l18 11" stroke="white" stroke-width="4" stroke-linecap="round"/>
+
+  <!-- Center -->
+  <circle cx="64" cy="64" r="5" fill="white"/>
+  <circle cx="64" cy="64" r="2" fill="currentColor"/>
+</svg>
