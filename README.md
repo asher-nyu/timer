@@ -55,7 +55,7 @@ npm run preview
 - The favicon is defined as an inline SVG data URL in `index.html`.
 - The timer UI, logic, and styles live in `src/App.vue`.
 - `alarm.mp3` is bundled by Vite and used when the timer finishes.
-- The app asks for notification permission on first load when the browser permission is still unset. Permission is only requested once by the browser.
+- The app asks for notification permission on first load when the browser permission is still unset. Safari requires a user gesture for this prompt, so Safari asks from the first interaction, such as pressing Start.
 - When permission is granted, the app uses `timer-sw.js` to show a finish notification and plays `alarm.mp3`.
 - The system notification is silent, so the alarm sound only comes from `alarm.mp3`.
 - The MP3 is prepared from the Start/Restart click, but playback only starts when the timer finishes.

@@ -127,6 +127,7 @@ const alarmPlayBlocked = ref(false);
 const activeNotification = ref<Notification | null>(null);
 const serviceWorkerRegistration = ref<ServiceWorkerRegistration | null>(null);
 const notificationPermission = ref<NotificationPermission | "unsupported">(getCurrentNotificationPermission());
+const notificationGestureRequestStarted = ref(false);
 const popupVisible = ref(false);
 const timerLabel = ref("TIMER");
 const hoursInput = ref("00");
@@ -180,6 +181,7 @@ onMounted(() => {
     registerNotificationWorker();
     addNotificationMessageListener();
     addAlarmFocusListeners();
+    addNotificationGesturePermissionListeners();
     void requestInitialNotificationPermission();
 });
 
@@ -189,6 +191,7 @@ onBeforeUnmount(() => {
     closeActiveNotification();
     removeNotificationMessageListener();
     removeAlarmFocusListeners();
+    removeNotificationGesturePermissionListeners();
 });
 
 function pad(num: number): string {
@@ -397,6 +400,7 @@ function handleStartPause(): void {
     if (startButtonDisabled.value && state.value === "idle") {
         return;
     }
+    requestNotificationPermissionFromGesture();
     if (state.value === "idle") {
         prepareAlarmAudio();
         startFromInputs();
@@ -497,8 +501,34 @@ async function requestInitialNotificationPermission(): Promise<void> {
         notificationPermission.value = Notification.permission;
         return;
     }
+    if (requiresGestureForNotificationPermission()) return;
 
     notificationPermission.value = await waitForNotificationPermission();
+}
+
+function requiresGestureForNotificationPermission(): boolean {
+    if (typeof navigator === "undefined") return false;
+
+    const userAgent = navigator.userAgent;
+    const vendor = navigator.vendor;
+
+    return /Safari/i.test(userAgent)
+        && /Apple/i.test(vendor)
+        && !/Chrome|Chromium|CriOS|FxiOS|Edg|OPR|OPiOS/i.test(userAgent);
+}
+
+function requestNotificationPermissionFromGesture(): void {
+    if (!supportsNotifications()) return;
+    if (Notification.permission !== "default") {
+        notificationPermission.value = Notification.permission;
+        return;
+    }
+    if (notificationGestureRequestStarted.value) return;
+
+    notificationGestureRequestStarted.value = true;
+    void waitForNotificationPermission().then((permission) => {
+        notificationPermission.value = permission;
+    });
 }
 
 function waitForNotificationPermission(): Promise<NotificationPermission> {
@@ -620,6 +650,16 @@ function removeAlarmFocusListeners(): void {
     window.removeEventListener("focus", stopAlarmFromNotificationFocus);
     window.removeEventListener("pageshow", stopAlarmFromNotificationFocus);
     document.removeEventListener("visibilitychange", handleVisibilityChange);
+}
+
+function addNotificationGesturePermissionListeners(): void {
+    window.addEventListener("pointerdown", requestNotificationPermissionFromGesture, { capture: true, once: true });
+    window.addEventListener("keydown", requestNotificationPermissionFromGesture, { capture: true, once: true });
+}
+
+function removeNotificationGesturePermissionListeners(): void {
+    window.removeEventListener("pointerdown", requestNotificationPermissionFromGesture, { capture: true });
+    window.removeEventListener("keydown", requestNotificationPermissionFromGesture, { capture: true });
 }
 
 function handleVisibilityChange(): void {
